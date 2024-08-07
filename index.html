@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+         <title>AR Music Experience</title>
+         <link rel="stylesheet" href="style.css">
+        <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+            integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    </head>
+    <body>
+   <div class="header">
+        <h1>AR Music Experience</h1>
+        <p>Scan the markers to play different instrument sounds!</p>
+        <button id="startButton">Start AR Experience</button>
+    </div>
+        <a-scene embedded arjs>
+            <a-assets>
+                <img id="guitarImage" src="./assets/guitar.png" />
+                <img id="drumImage" src="./assets/drums.png" />
+                <img id="micImage" src="./assets/mic.png" />
+                <img id="pianoImage" src="./assets/piano.png" />
+            </a-assets>
+
+            <a-marker
+                id="guitarMarker"
+                type="pattern"
+                url="markers/pattern-letterA.patt"
+            >
+                <a-image
+                    src="#guitarImage"
+                    rotation="-90 0 0"
+                    position="0 0 0"
+                    width="3"
+                    height="3"
+                ></a-image>
+            </a-marker>
+            <a-marker
+                id="drumMarker"
+                type="pattern"
+                url="markers/pattern-letterB.patt"
+            >
+                <a-image
+                    src="#drumImage"
+                    rotation="-90 0 0"
+                    position="0 0 0"
+                    width="3"
+                    height="3"
+                ></a-image>
+            </a-marker>
+            <a-marker
+                id="micMarker"
+                type="pattern"
+                url="markers/pattern-letterC.patt"
+            >
+                <a-image
+                    src="#micImage"
+                    rotation="-90 0 0"
+                    position="0 0 0"
+                    width="3"
+                    height="3"
+                ></a-image>
+            </a-marker>
+            <a-marker
+                id="pianoMarker"
+                type="pattern"
+                url="markers/pattern-letterD.patt"
+            >
+                <a-image
+                    src="#pianoImage"
+                    rotation="-90 0 0"
+                    position="0 0 0"
+                    width="3"
+                    height="3"
+                ></a-image>
+            </a-marker>
+
+            <a-entity camera></a-entity>
+        </a-scene>
+
+        <script>
+            window.onload = function () {
+                let guitar = new Howl({ src: ["./audio/guitar.mp3"] });
+                let drum = new Howl({ src: ["./audio/drums.mp3"] });
+                let mic = new Howl({ src: ["./audio/mic.mp3"] });
+                let piano = new Howl({ src: ["./audio/piano.mp3"] });
+
+                guitar.play();
+                drum.play();
+                mic.play();
+                piano.play();
+
+                let guitarMarker = document.getElementById("guitarMarker");
+                guitarMarker.addEventListener("markerFound", function () {
+                    guitar.mute(false);
+                });
+                guitarMarker.addEventListener("markerLost", function () {
+                    guitar.mute(true);
+                });
+
+                let drumMarker = document.getElementById("drumMarker");
+                drumMarker.addEventListener("markerFound", function () {
+                    drum.mute(false);
+                });
+                drumMarker.addEventListener("markerLost", function () {
+                    drum.mute(true);
+                });
+
+                let micMarker = document.getElementById("micMarker");
+                micMarker.addEventListener("markerFound", function () {
+                    mic.mute(false);
+                });
+                micMarker.addEventListener("markerLost", function () {
+                    mic.mute(true);
+                });
+
+                let pianoMarker = document.getElementById("pianoMarker");
+                pianoMarker.addEventListener("markerFound", function () {
+                    piano.mute(false);
+                });
+                pianoMarker.addEventListener("markerLost", function () {
+                    piano.mute(true);
+                });
+            };
+        </script>
+    </body>
+</html>
